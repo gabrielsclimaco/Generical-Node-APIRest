@@ -1,16 +1,19 @@
 module.exports = (env) => {
   var mongoose = require('mongoose')
-  mongoose.connect('mongodb://'
-    + env.database.host + ':'
-    + env.database.port + '/'
-    + env.database.name)
+
+  var databaseUri = 'mongodb://localhost:27017/generical-db'
+
+  mongoose.connect(databaseUri, function (err, res) {
+    if (err) {
+      console.log('ERROR  connecting to: ' + databaseUri + '. ' + err);
+    } else {
+      console.log('Succeeded connected to: ' + databaseUri);
+    }
+  })
 
   var db = mongoose.connection
 
   db.on('open', () => {
-    console.log('Conected in mongodb://'
-      + env.database.host + ':'
-      + env.database.port + '/'
-      + env.database.name)
+    console.log('Conected in ' + databaseUri)
   })
 }
